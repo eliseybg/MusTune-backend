@@ -1,13 +1,13 @@
 package org.mustune.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.server.response.*
 import io.ktor.server.application.*
+import io.ktor.server.routing.*
+import org.mustune.routes.getAllSongs
+import org.mustune.routes.root
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
+        root()
+        getAllSongs()
     }
 }
