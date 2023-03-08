@@ -1,8 +1,9 @@
 package org.mustune.repository.song
 
-import org.mustune.entities.SongInfo
+import org.mustune.entities.MusicTab
+import org.mustune.entities.SongEntity
 
 interface SongRepository {
-    suspend fun getAllSongs(page: Int = 0): List<SongInfo>
-    suspend fun getSong(id: String): SongInfo?
+    suspend fun getAllSongs(tab: MusicTab = MusicTab.EXPLORE, page: Int = 0, pageSize: Int): List<SongEntity>
+    suspend fun getSong(id: String): SongEntity?
 }
