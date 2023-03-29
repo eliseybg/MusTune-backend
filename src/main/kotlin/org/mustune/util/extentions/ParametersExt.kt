@@ -25,7 +25,3 @@ val Parameters.tab: MusicTab
         require(MusicTab.values().any { it.name == tab }) { "Tab should be one of " + MusicTab.values().joinToString() }
         return MusicTab.valueOf(tab)
     }
-
-val Parameters.searchText: String
-    get() = this["searchText"].orEmpty()
-

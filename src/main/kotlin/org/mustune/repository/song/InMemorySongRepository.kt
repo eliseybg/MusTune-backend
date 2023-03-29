@@ -1,6 +1,7 @@
 package org.mustune.repository.song
 
 import org.mustune.entities.MusicTab
+import org.mustune.entities.SearchFilter
 import org.mustune.entities.SongEntity
 
 class InMemorySongRepository : SongRepository {
@@ -17,9 +18,21 @@ class InMemorySongRepository : SongRepository {
         return songs.filter { it.tab == tab }.drop(pageSize * (page - 1)).take(pageSize)
     }
 
-    override suspend fun searchSongs(searchText: String, page: Int, pageSize: Int): List<SongEntity> {
+    override suspend fun searchSongs(
+        searchText: String,
+        searchFilter: SearchFilter,
+        page: Int,
+        pageSize: Int
+    ): List<SongEntity> {
         return songs
-            .filter { it.title.contains(searchText, true) || it.artist.contains(searchText, true) }
+            .filter {
+                when (searchFilter.searchInText) {
+                    SearchFilter.SearchInText.TITLE_ARTIST -> it.title.contains(searchText, true)
+                            || it.artist.contains(searchText, true)
+                    SearchFilter.SearchInText.TITLE -> it.title.contains(searchText, true)
+                    SearchFilter.SearchInText.ARTIST -> it.artist.contains(searchText, true)
+                }
+            }
             .drop(pageSize * (page - 1))
             .take(pageSize)
     }
