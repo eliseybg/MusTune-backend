@@ -25,3 +25,8 @@ val Parameters.tab: MusicTab
         require(MusicTab.values().any { it.name == tab }) { "Tab should be one of " + MusicTab.values().joinToString() }
         return MusicTab.valueOf(tab)
     }
+
+val Parameters.songId: String
+    get() {
+        return this["songId"].orEmpty()
+    }
