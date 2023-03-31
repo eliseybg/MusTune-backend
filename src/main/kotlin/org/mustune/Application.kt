@@ -5,14 +5,18 @@ import io.ktor.server.engine.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import org.mustune.plugins.*
+import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.module() {
+    configureDb()
+    configureJwt()
     configuredKoin()
     configureRouting()
     configureMonitoring()
     configureSerialization()
     configureDefaultHeader()
+    configureCommonExceptionHandler()
 }

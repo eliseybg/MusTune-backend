@@ -1,8 +1,10 @@
 package org.mustune.util.extentions
 
 import io.ktor.http.*
+import io.ktor.server.plugins.*
 import org.mustune.entities.MusicTab
 import org.mustune.util.Constants
+import java.util.UUID
 import kotlin.math.min
 
 val Parameters.page: Int
@@ -26,7 +28,7 @@ val Parameters.tab: MusicTab
         return MusicTab.valueOf(tab)
     }
 
-val Parameters.songId: String
+val Parameters.songId: UUID
     get() {
-        return this["songId"].orEmpty()
+        return UUID.fromString(this["songId"] ?: throw BadRequestException("no argument songId"))
     }
