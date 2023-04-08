@@ -6,7 +6,7 @@ import org.mustune.entities.SearchFilter
 import java.util.*
 
 interface SongsRepository {
-    suspend fun getSong(songId: UUID): Song?
+    suspend fun getSong(userId: UUID?, songId: UUID): Song?
     suspend fun addSong(userId: UUID?, song: Song): Song?
     suspend fun editSong(userId: UUID, song: Song): Boolean
     suspend fun deleteSong(songId: UUID): Boolean

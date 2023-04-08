@@ -10,6 +10,7 @@ import io.ktor.server.auth.jwt.*
 import org.mustune.util.exceptions.UnauthorizedException
 import java.time.Instant
 import java.util.*
+import kotlin.time.Duration.Companion.days
 
 fun Application.configureJwt() {
     install(Authentication) {
@@ -27,7 +28,7 @@ fun Application.configureJwt() {
 object JwtConfig {
     private const val secret = "ktor-secret"
     private const val issuer = "ktor.io"
-    private const val validityInMs = 36_000_00 * 24 // 24 hours
+    private val validityInMs = 365.days.inWholeMilliseconds
     private val algorithm = Algorithm.HMAC256(secret)
 
     val verifier: JWTVerifier = JWT
@@ -58,5 +59,5 @@ object JwtConfig {
     private fun getExpiration() = Date(System.currentTimeMillis() + validityInMs)
 
     const val audience = "ktor-audience"
-    const val claim = "id"
+    private const val claim = "id"
 }

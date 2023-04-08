@@ -12,6 +12,7 @@ import org.mustune.domain.model.Song
 import org.mustune.domain.repository.SongsRepository
 import org.mustune.entities.SongInfoBody
 import org.mustune.plugins.JwtConfig
+import org.mustune.util.exceptions.UnknownServerException
 import java.io.File
 
 fun Route.addSong() {
@@ -40,7 +41,7 @@ fun Route.addSong() {
             isCreator = true,
             createdBy = userId
         )
-        songRepository.addSong(userId, song)
-        call.respond(message = song, status = HttpStatusCode.OK)
+        val addedSong = songRepository.addSong(userId, song) ?: throw UnknownServerException()
+        call.respond(message = addedSong, status = HttpStatusCode.OK)
     }
 }

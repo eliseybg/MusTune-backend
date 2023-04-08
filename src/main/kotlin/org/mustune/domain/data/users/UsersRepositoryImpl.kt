@@ -28,6 +28,7 @@ class UsersRepositoryImpl : UsersRepository {
             it[Users.email] = email
             it[Users.password] = password
             it[createdAt] = Calendar.getInstance().time.toLocalDateTime()
+            it[updatedAt] = Calendar.getInstance().time.toLocalDateTime()
         }
         insertStatement.resultedValues?.singleOrNull()?.let(ResultRow::toUser)
     }

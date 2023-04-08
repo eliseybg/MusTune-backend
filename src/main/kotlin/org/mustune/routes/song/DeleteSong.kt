@@ -16,8 +16,8 @@ fun Route.deleteSong() {
         val songId = call.request.queryParameters.songId
 
         val songRepository = context.get<SongsRepository>()
-        val song = songRepository.getSong(songId) ?: throw NotFoundException()
-        if (song.createdBy != userId) throw BadRequestException("no access")
+        val song = songRepository.getSong(userId, songId) ?: throw NotFoundException()
+        if (!song.isCreator) throw BadRequestException("no access")
         songRepository.deleteSong(songId)
         call.respond(message = "", status = HttpStatusCode.OK)
     }

@@ -1,6 +1,7 @@
 package org.mustune.plugins
 
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.routing.*
 import org.mustune.routes.auth.login
 import org.mustune.routes.auth.signup
@@ -19,13 +20,15 @@ fun Application.configureRouting() {
         root()
         login()
         signup()
-        deleteAccount()
-        getSong()
-        addSong()
-        editSong()
-        deleteSong()
-        allSongs()
-        searchSongs()
-        songsCategories()
+        authenticate {
+            deleteAccount()
+            getSong()
+            addSong()
+            editSong()
+            deleteSong()
+            allSongs()
+            searchSongs()
+            songsCategories()
+        }
     }
 }

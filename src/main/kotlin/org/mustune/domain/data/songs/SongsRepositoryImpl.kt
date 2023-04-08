@@ -15,9 +15,9 @@ import org.mustune.util.extentions.toLocalDateTime
 import java.util.*
 
 class SongsRepositoryImpl : SongsRepository {
-    override suspend fun getSong(songId: UUID): Song? = dbQuery {
+    override suspend fun getSong(userId: UUID?, songId: UUID): Song? = dbQuery {
         (Songs leftJoin Users leftJoin ShareSongs leftJoin FavouriteSongs).select { Songs.id eq songId }
-            .map(ResultRow::toSong).singleOrNull()
+            .map { it.toSong(userId) }.singleOrNull()
     }
 
     override suspend fun addSong(userId: UUID?, song: Song): Song? = transaction {
@@ -44,7 +44,7 @@ class SongsRepositoryImpl : SongsRepository {
         }
 
         (Songs leftJoin Users leftJoin ShareSongs leftJoin FavouriteSongs).select { Songs.id eq songId }
-            .map(ResultRow::toSong).singleOrNull()
+            .map { it.toSong(userId) }.singleOrNull()
     }
 
     override suspend fun editSong(userId: UUID, song: Song): Boolean = dbQuery {
@@ -93,7 +93,7 @@ class SongsRepositoryImpl : SongsRepository {
                 MusicTab.SHARED -> ShareSongs.userId eq userId
                 MusicTab.PERSONAL -> Songs.createdBy eq userId
             }
-        }.map(ResultRow::toSong)
+        }.drop(pageSize * (page - 1)).take(pageSize).map { it.toSong(userId) }
     }
 
     override suspend fun searchSongs(
@@ -119,6 +119,6 @@ class SongsRepositoryImpl : SongsRepository {
             if (MusicTab.PERSONAL in searchFilter.searchInTabs)
                 searchInTabs = searchInTabs or (Songs.createdBy eq userId)
             query and searchInTabs
-        }.map(ResultRow::toSong)
+        }.drop(pageSize * (page - 1)).take(pageSize).map { it.toSong(userId) }
     }
 }
