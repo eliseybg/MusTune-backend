@@ -10,10 +10,7 @@ import org.mustune.routes.music.allSongs
 import org.mustune.routes.music.searchSongs
 import org.mustune.routes.music.songsCategories
 import org.mustune.routes.root
-import org.mustune.routes.song.addSong
-import org.mustune.routes.song.deleteSong
-import org.mustune.routes.song.editSong
-import org.mustune.routes.song.getSong
+import org.mustune.routes.song.*
 
 fun Application.configureRouting() {
     routing {
@@ -26,6 +23,9 @@ fun Application.configureRouting() {
             addSong()
             editSong()
             deleteSong()
+            downloadSong()
+            addSongToFavourite()
+            removeSongFromFavourite()
             allSongs()
             searchSongs()
             songsCategories()
