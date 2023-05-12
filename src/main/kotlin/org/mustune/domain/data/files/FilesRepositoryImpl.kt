@@ -8,13 +8,15 @@ import org.mustune.domain.data.dbQuery
 import org.mustune.domain.mapper.toFile
 import org.mustune.domain.model.File
 import org.mustune.domain.repository.FilesRepository
-import java.util.UUID
+import org.mustune.util.extentions.toLocalDateTime
+import java.util.*
 
 class FilesRepositoryImpl : FilesRepository {
     override suspend fun addFile(songId: UUID, filePath: String): Unit = dbQuery {
         Files.insert {
             it[Files.songId] = songId
             it[Files.filePath] = filePath
+            it[Files.createdAt] = Calendar.getInstance().time.toLocalDateTime()
         }
     }
 
