@@ -122,7 +122,8 @@ class SongsRepositoryImpl : SongsRepository {
                     SearchFilter.SearchInText.TITLE -> Songs.title like "%$searchText%"
                     SearchFilter.SearchInText.ARTIST -> Songs.artist like "%$searchText%"
                 }
-                var searchInTabs: Op<Boolean> = Op.TRUE
+                var searchInTabs: Op<Boolean> = Op.FALSE
+                if (searchFilter.searchInTabs.isEmpty()) searchInTabs = Op.TRUE
                 if (MusicTab.EXPLORE in searchFilter.searchInTabs)
                     searchInTabs = searchInTabs or (Songs.shareType eq ShareType.ALL_USERS)
                 if (MusicTab.FAVOURITE in searchFilter.searchInTabs)
