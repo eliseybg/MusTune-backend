@@ -46,7 +46,7 @@ fun Route.addSong() {
             file.outputStream().buffered().use { its.copyTo(it) }
         }
         val filesRepository = context.get<FilesRepository>()
-        filesRepository.addFile(addedSong.id, file.absolutePath)
+        filesRepository.addFile(addedSong.id, file.path)
         call.respond(message = addedSong, status = HttpStatusCode.OK)
     }
 }
